@@ -65,15 +65,6 @@ $('#serviceOpt').on('change', function(){
                 }})
                 break
             case 'rebrandly':
-                // $.ajax({
-                //     type: 'GET',
-                //     url: `https://goo.by/api/?key=${key.rebrandly}&url=${url}`,
-                //     dataType: 'JSON'
-                // ,
-                // success: (result) => {
-                //     console.log(result)
-                // }})
-
                 const options = {
                     method: 'POST',
                     headers: {
