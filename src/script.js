@@ -86,7 +86,18 @@ $('#serviceOpt').on('change', function(){
                   
                 fetch('https://api.rebrandly.com/v1/links', options)
                 .then(response => response.json())
-                .then(response => console.log(response.shortUrl))
+                .then(response => {
+                    $('#progress').addClass('hidden')
+                    $('.result-link').removeClass('hidden')
+                    const res = $('#resultLink').val(response.shortUrl)
+                    $('#copy').on('click', () => {
+                        res.select();
+                        res.setSelectionRange(0, 99999); // For mobile devices
+
+                        // Copy the text inside the text field
+                        navigator.clipboard.writeText(res.value);
+                    })
+                })
                 .catch(err => console.error(err));
 
                 break
