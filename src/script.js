@@ -201,3 +201,8 @@ $('#serviceOpt').on('change', function(){
     $('#resultLink').val(selectedPackage)
 
     });
+
+
+const title = () => {
+    return `Shortik`
+}
