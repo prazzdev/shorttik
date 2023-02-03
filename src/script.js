@@ -190,6 +190,69 @@ $('#serviceOpt').on('change', function(){
                     })
                 }})
                 break
+            case 'shrtcode':
+                $.ajax({
+                    type: 'GET',
+                    url: `https://api.shrtco.de/v2/shorten?url=${url}`,
+                    dataType: 'JSON'
+                ,
+                success: (response) => {
+                    // if(result.data.ok === true){
+                        $('#progress').addClass('hidden')
+                        $('.result-link').removeClass('hidden')
+                        const res = $('#resultLink').val(response.result.short_link)
+                        $('#copy').on('click', () => {
+                            res.select();
+                            res.setSelectionRange(0, 99999); // For mobile devices
+
+                            // Copy the text inside the text field
+                            navigator.clipboard.writeText(res.value);
+                        })
+                    // }
+                }})
+                break
+            case '9qrde':
+                $.ajax({
+                    type: 'GET',
+                    url: `https://api.shrtco.de/v2/shorten?url=${url}`,
+                    dataType: 'JSON'
+                ,
+                success: (response) => {
+                    // if(result.data.ok === true){
+                        $('#progress').addClass('hidden')
+                        $('.result-link').removeClass('hidden')
+                        const res = $('#resultLink').val(response.result.short_link2)
+                        $('#copy').on('click', () => {
+                            res.select();
+                            res.setSelectionRange(0, 99999); // For mobile devices
+
+                            // Copy the text inside the text field
+                            navigator.clipboard.writeText(res.value);
+                        })
+                    // }
+                }})
+                break
+            case 'shinylink':
+                $.ajax({
+                    type: 'GET',
+                    url: `https://api.shrtco.de/v2/shorten?url=${url}`,
+                    dataType: 'JSON'
+                ,
+                success: (response) => {
+                    // if(result.data.ok === true){
+                        $('#progress').addClass('hidden')
+                        $('.result-link').removeClass('hidden')
+                        const res = $('#resultLink').val(response.result.short_link3)
+                        $('#copy').on('click', () => {
+                            res.select();
+                            res.setSelectionRange(0, 99999); // For mobile devices
+
+                            // Copy the text inside the text field
+                            navigator.clipboard.writeText(res.value);
+                        })
+                    // }
+                }})
+                break
         }
     })
 
