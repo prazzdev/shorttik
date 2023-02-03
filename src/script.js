@@ -5,24 +5,59 @@ const key = {
     cuttly: "3271f13baa03ece084c4341abeed593247cc5"
 }
 
+const modal = (data) => 
+`<label for="modal" class="btn">Result</label>
+
+<input type="checkbox" id="modal" class="modal-toggle" />
+<label for="modal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+    <h3 class="text-lg font-bold mb-4">Link berhasil dibuat!</h3>
+    <div class="h-fit flex justify-center items-center">
+        <input type="text" name="resultLink" id="resultLink" class="input input-bordered rounded-md w-full max-w-fit text-center" value="${data}" />
+    </div>
+  </label>
+</label>`
+
 $('#serviceOpt').on('change', function(){
 
     const selectedPackage = $('#serviceOpt').val();
-    // $('#selected').text(selectedPackage);
     let url = $('#linkToShort').val()
     
     $('#shorten').on('click', () => {
         $('progress').removeClass('hidden')
         let option = selectedPackage
         switch (option){
+            case 'bitly':
+                $.ajax({
+                    type: 'POST',
+                    url: `https://api-ssl.bitly.com/v4/shorten`,
+                    headers: {
+                        'Authorization': 'Bearer 1f8babb234580a30079208105bbfbe9d50ef0d51',
+                    },
+                    dataType: 'JSON',
+                    body: {
+                        "domain": "bit.ly",
+                        "group_guid": "Bl3ecjhH97k",
+                        "long_url": "https://stackoverflow.com/questions/14010851/set-request-header-jquery-ajax"
+                    }
+                ,
+                success: (result) => {
+                    console.log(result.data)
+                }})
+                break
             case 'gooby':
                 $.ajax({
                     type: 'GET',
                     url: `https://goo.by/api/?key=${key.goobyKey}&url=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
-                    console.log(result)
+                success: (response) => {
+                    const result = response.short
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
+                    $('#progress').addClass('hidden')
+                    $('.result-link').removeClass('hidden')
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'vurl':
@@ -37,21 +72,13 @@ $('#serviceOpt').on('change', function(){
                     },
                     dataType: 'JSON'
                 ,
-                success: (result) => {
-                    console.log(result)
+                success: (response) => {
+                    const result = response.hasil
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.hasil)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-
-                        // Alert the copied text
-                        alert("Copied the text: " + res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'p1rs':
@@ -78,16 +105,12 @@ $('#serviceOpt').on('change', function(){
                 fetch('https://api.rebrandly.com/v1/links', options)
                 .then(response => response.json())
                 .then(response => {
+                    const result = response.shortUrl
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(response.shortUrl)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 })
                 .catch(err => console.error(err));
 
@@ -98,20 +121,13 @@ $('#serviceOpt').on('change', function(){
                     url: `https://api.akuari.my.id/short/isgd?link=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
+                success: (response) => {
+                    const result = response.hasil.shorturl
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.hasil.shorturl)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-
-                        // Alert the copied text
-                        alert("Copied the text: " + res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'cuttly':
@@ -120,17 +136,13 @@ $('#serviceOpt').on('change', function(){
                     url: `https://cutt.ly/api/api.php?key=${key.cuttly}&short=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
+                success: (response) => {
+                    const result = response.url.shortLink
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.url.shortLink)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'tinyurl':
@@ -139,17 +151,13 @@ $('#serviceOpt').on('change', function(){
                     url: `https://api.akuari.my.id/short/tinyurl?link=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
+                success: (response) => {
+                    const result = response.hasil
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.hasil)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'clppw':
@@ -158,17 +166,13 @@ $('#serviceOpt').on('change', function(){
                     url: `https://api.akuari.my.id/short/clp?link=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
+                success: (response) => {
+                    const result = response.hasil.url
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.hasil.url)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'vgd':
@@ -177,17 +181,13 @@ $('#serviceOpt').on('change', function(){
                     url: `https://api.akuari.my.id/short/vgd?link=${url}`,
                     dataType: 'JSON'
                 ,
-                success: (result) => {
+                success: (response) => {
+                    const result = response.hasil.shorturl
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
                     $('#progress').addClass('hidden')
                     $('.result-link').removeClass('hidden')
-                    const res = $('#resultLink').val(result.hasil.shorturl)
-                    $('#copy').on('click', () => {
-                        res.select();
-                        res.setSelectionRange(0, 99999); // For mobile devices
-
-                        // Copy the text inside the text field
-                        navigator.clipboard.writeText(res.value);
-                    })
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'shrtcode':
@@ -197,18 +197,12 @@ $('#serviceOpt').on('change', function(){
                     dataType: 'JSON'
                 ,
                 success: (response) => {
-                    // if(result.data.ok === true){
-                        $('#progress').addClass('hidden')
-                        $('.result-link').removeClass('hidden')
-                        const res = $('#resultLink').val(response.result.short_link)
-                        $('#copy').on('click', () => {
-                            res.select();
-                            res.setSelectionRange(0, 99999); // For mobile devices
-
-                            // Copy the text inside the text field
-                            navigator.clipboard.writeText(res.value);
-                        })
-                    // }
+                    const result = response.result.short_link
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
+                    $('#progress').addClass('hidden')
+                    $('.result-link').removeClass('hidden')
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case '9qrde':
@@ -218,18 +212,12 @@ $('#serviceOpt').on('change', function(){
                     dataType: 'JSON'
                 ,
                 success: (response) => {
-                    // if(result.data.ok === true){
-                        $('#progress').addClass('hidden')
-                        $('.result-link').removeClass('hidden')
-                        const res = $('#resultLink').val(response.result.short_link2)
-                        $('#copy').on('click', () => {
-                            res.select();
-                            res.setSelectionRange(0, 99999); // For mobile devices
-
-                            // Copy the text inside the text field
-                            navigator.clipboard.writeText(res.value);
-                        })
-                    // }
+                    const result = response.result.short_link2
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
+                    $('#progress').addClass('hidden')
+                    $('.result-link').removeClass('hidden')
+                    $('.result-link').html(modal(result))
                 }})
                 break
             case 'shinylink':
@@ -239,29 +227,21 @@ $('#serviceOpt').on('change', function(){
                     dataType: 'JSON'
                 ,
                 success: (response) => {
-                    // if(result.data.ok === true){
-                        $('#progress').addClass('hidden')
-                        $('.result-link').removeClass('hidden')
-                        const res = $('#resultLink').val(response.result.short_link3)
-                        $('#copy').on('click', () => {
-                            res.select();
-                            res.setSelectionRange(0, 99999); // For mobile devices
-
-                            // Copy the text inside the text field
-                            navigator.clipboard.writeText(res.value);
-                        })
-                    // }
+                    const result = response.result.short_link3
+                    $('#linkToShort').val(null) 
+                    $('#serviceOpt').val('')
+                    $('#progress').addClass('hidden')
+                    $('.result-link').removeClass('hidden')
+                    $('.result-link').html(modal(result))
                 }})
+                break
+            case '':
+                $('#progress').addClass('hidden')
+                const res = $('.result-link').html('<h1 class="font-bold">The selection is not working! Try other.</h1>')
+                res.removeClass('hidden')
                 break
         }
     })
-
-    
-
-    // console.log(x)
-
-    // isi input hasil dengn result
-    $('#resultLink').val(selectedPackage)
 
     });
 
