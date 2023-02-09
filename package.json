@@ -1,0 +1,20 @@
+{
+  "name": "ShortTik",
+  "version": "1.0.0",
+  "description": "Shorten the link - All URL Shortener",
+  "main": "index.html",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prazzdev/shorttik.git"
+  },
+  "keywords": ["url","url shortener","link shortener"],
+  "author": "Agung Prasetyo aka prazzdev",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/prazzdev/shorttik/issues"
+  },
+  "homepage": "https://github.com/prazzdev/shorttik#readme"
+}
